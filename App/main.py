@@ -16,6 +16,7 @@ from App.controllers import (
 
 from App.views import (
     user_views,
+    author_views,
     index_views
 )
 
@@ -23,6 +24,7 @@ from App.views import (
 
 views = [
     user_views,
+    author_views,
     index_views
 ]
 

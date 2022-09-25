@@ -4,7 +4,7 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import create_db, get_migrate
 from App.main import create_app
-from App.controllers import ( create_user, get_all_users_json, get_all_users )
+from App.controllers import ( create_author, get_all_authors_json, get_all_authors )
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -16,36 +16,6 @@ migrate = get_migrate(app)
 def initialize():
     create_db(app)
     print('database intialized')
-
-'''
-User Commands
-'''
-
-# Commands can be organized using groups
-
-# create a group, it would be the first argument of the comand
-# eg : flask user <command>
-user_cli = AppGroup('user', help='User object commands') 
-
-# Then define the command and any parameters and annotate it with the group (@)
-@user_cli.command("create", help="Creates a user")
-@click.argument("username", default="rob")
-@click.argument("password", default="robpass")
-def create_user_command(username, password):
-    create_user(username, password)
-    print(f'{username} created!')
-
-# this command will be : flask user create bob bobpass
-
-@user_cli.command("list", help="Lists users in the database")
-@click.argument("format", default="string")
-def list_user_command(format):
-    if format == 'string':
-        print(get_all_users())
-    else:
-        print(get_all_users_json())
-
-app.cli.add_command(user_cli) # add the group to the cli
 
 
 '''
@@ -75,3 +45,35 @@ def user_tests_command(type):
     
 
 app.cli.add_command(test)
+
+'''
+Author Commands
+'''
+
+# Commands can be organized using groups
+
+# create a group, it would be the first argument of the comand
+# eg : flask author <command>
+author_cli = AppGroup('author', help='Author object commands') 
+
+# Then define the command and any parameters and annotate it with the group (@)
+@author_cli.command("create", help="Creates an author.")
+@click.argument("fname", default="Nicholas")
+@click.argument("lname", default="Mendez")
+@click.argument("email", default="nmendez@gmail.com")
+@click.argument("password", default="mendez15cool!")
+def create_author_command(fname, lname, email, password):
+    create_author(fname, lname, email, password)
+    print(f'Author {fname} {lname} created with email {email}!')
+
+# this command will be : flask user create bob bobpass
+
+@author_cli.command("list", help="Lists authors in the database")
+@click.argument("format", default="string")
+def list_author_command(format):
+    if format == 'string':
+        print(get_all_authors())
+    else:
+        print(get_all_authors_json())
+
+app.cli.add_command(author_cli) # add the group to the cli

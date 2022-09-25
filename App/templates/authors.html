@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
-{% block title %}App Users{% endblock %}
-{% block page %}App Users{% endblock %}
+{% block title %}App Authors{% endblock %}
+{% block page %}App Authors{% endblock %}
 
 {{ super() }}
 
@@ -14,14 +14,16 @@
       <table>
         <thead>
           <tr>
-            <th>ID</th><th>Username</th>
+            <th>ID</th><th>First Name</th><th>Last Name</th><th>Email</th>
           </tr>
         </thead>
         <tbody>
-          {% for user in users %}
+          {% for author in authors %}
             <tr>
-                <td>{{user.id}}</td>
-                <td>{{user.username}}</td>
+                <td>{{author.id}}</td>
+                <td>{{author.fname}}</td>
+                <td>{{author.lname}}</td>
+                <td>{{author.email}}</td>
             </tr>
           {% endfor %}
         <tbody>
