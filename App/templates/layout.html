@@ -12,15 +12,17 @@
     <title>{% block title %}{% endblock %}</title>
 
   </head>
-  <body>
+  <body class="grey lighten-4">
     <nav class="purple">
       <div class="nav-wrapper">
-        <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
+        <a href="#!" class="brand-logo left">{% block page %}{% endblock %}</a>
         <div class="nav-wrapper">
-            <ul id="nav-mobile" class="left">
+            <ul id="nav-mobile" class="right">
                 <li><a href="/">Home</a></li>
                 <li><a href="/users">Users Jinja</a></li>
                 <li><a href="/static/users">Users JS</a></li>
+                <li><button class="btn">Register</button></li>
+                <li><button class="btn">Sign In</button></li>
             </ul>
         </div>
       </div>
