@@ -4,7 +4,7 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import create_db, get_migrate
 from App.main import create_app
-from App.controllers import ( create_author, get_all_authors_json, get_all_authors )
+from App.controllers import ( create_author, create_publication, get_all_authors_json, get_all_authors )
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -77,3 +77,35 @@ def list_author_command(format):
         print(get_all_authors_json())
 
 app.cli.add_command(author_cli) # add the group to the cli
+
+'''
+Publication Commands
+'''
+
+# Commands can be organized using groups
+
+# create a group, it would be the first argument of the comand
+# eg : flask author <command>
+pub_cli = AppGroup('pub', help='Publication object commands') 
+
+# Then define the command and any parameters and annotate it with the group (@)
+@pub_cli.command("create", help="Creates a publication.")
+@click.argument("name", default="A random fact about Software Engineering.")
+@click.argument("author", default="1")
+@click.argument("content", default="Something random about Software Engineering I chose to share randomly!")
+@click.argument("citation", default="https://nicholasmendez.dev/")
+def create_publication_command(name, author, content, citation):
+    create_publication(name, author, content, citation)
+    print(f'Publication {name} created!')
+
+# this command will be : flask user create bob bobpass
+
+@pub_cli.command("list", help="Lists publications in the database")
+@click.argument("format", default="string")
+def list_publication_command(format):
+    if format == 'string':
+        print(get_all_authors())
+    else:
+        print(get_all_authors_json())
+
+app.cli.add_command(pub_cli) # add the group to the cli

@@ -5,9 +5,42 @@
 {{ super() }}
 
 {% block content %}
-    <h1>Test Change</h1>
-    <p>This is a boileplate flask application which follows the MVC pattern for structuring the project.</p>
 
-    
+    <main style="padding: 1em" class="row">
+        <section class="col s12 m8">
+            <section class="row" style="overflow-y: scroll; height:82vh">
+
+                <h1 class="center">Publications</h1>
+
+                {% for publication in publications %}
+                <ul class="collection">
+                    <li class="collection-item avatar">
+                        <i class="material-icons circle">folder</i>
+                        <span class="title">{{publication.name}}</span>
+                        {% for author in authors %}
+                        {% if publication.author == author.id%}
+                        <p><a href="/author/{{author.id}}">{{author.fname}} {{author.lname}}</a><br> {{publication.content}} </p>
+                        {% endif %}
+                        {% endfor %}
+                    </li>
+                </ul>
+                {% endfor %}
+
+            </section>
+        </section>
+        <section class="col s12 m4">
+            <section class="row" style="overflow-y: scroll; height:82vh">
+
+                <h1 class="center">Authors</h1>
+
+                <ul class="collection">
+                    {% for author in authors %}
+                    <a href="/author/{{author.id}}" class="collection-item">{{author.fname}} {{author.lname}}</a>
+                    {% endfor %}
+                </ul>
+
+            </section>
+        </section>
+    </main>
       
 {% endblock %}
