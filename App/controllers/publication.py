@@ -24,12 +24,20 @@ def get_all_pubs_json():
     pubs = [publication.toJSON() for publication in publications]
     return pubs
 
-def update_author(id, fname, lname):
-    author = get_author(id)
-    if author:
-        author.fname = fname
-        author.lname = lname
-        db.session.add(author)
+def delete_publication(id):
+    pub = get_pub(id)
+    if pub:
+        db.session.delete(pub)
+        db.session.commit()
+    return None
+
+def update_pub(id, name, content, citation):
+    pub = get_pub(id)
+    if pub:
+        pub.name = name
+        pub.content = content
+        pub.citation = citation
+        db.session.add(pub)
         return db.session.commit()
     return None
     
