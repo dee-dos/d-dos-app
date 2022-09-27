@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}UWI Research Platform{% endblock %}
+{% block title %} {{ author.fname }} {{ author.lname }} | UWI Research Platform{% endblock %}
 {% block page %}UWI Research Platform{% endblock %}
 
 {{ super() }}
@@ -19,7 +19,7 @@
                     <ul class="collection">
                         <li class="collection-item avatar">
                             <i class="material-icons circle">folder</i>
-                            <span class="title">{{publication.name}}</span>
+                            <a href="/publication/{{publication.id}}"><span class="title">{{publication.name}}</span></a>
                             <p>{{publication.content}} </p>
                         </li>
                     </ul>

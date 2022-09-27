@@ -3,7 +3,8 @@ from flask_jwt import jwt_required
 
 
 from App.controllers import (
-    create_publication, 
+    create_publication,
+    get_pub, 
     get_all_pubs,
     get_all_pubs_json,
 )

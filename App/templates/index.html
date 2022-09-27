@@ -15,7 +15,7 @@
                 <ul class="collection hoverable">
                     <li class="collection-item avatar">
                         <i class="material-icons circle">folder</i>
-                        <span class="title">{{publication.name}}</span>
+                        <a href="/publication/{{publication.id}}"><span class="title">{{publication.name}}</span></a>
                         <p><a href="/author/{{publication.author}}">{{publication.Author.fname}} {{publication.Author.lname}}</a><br> {{publication.content}} </p>
                     </li>
                 </ul>
