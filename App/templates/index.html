@@ -12,15 +12,11 @@
             <section class="row" style="overflow-y: scroll; height:82vh">
 
                 {% for publication in publications %}
-                <ul class="collection">
+                <ul class="collection hoverable">
                     <li class="collection-item avatar">
                         <i class="material-icons circle">folder</i>
                         <span class="title">{{publication.name}}</span>
-                        {% for author in authors %}
-                        {% if publication.author == author.id%}
-                        <p><a href="/author/{{author.id}}">{{author.fname}} {{author.lname}}</a><br> {{publication.content}} </p>
-                        {% endif %}
-                        {% endfor %}
+                        <p><a href="/author/{{publication.author}}">{{publication.Author.fname}} {{publication.Author.lname}}</a><br> {{publication.content}} </p>
                     </li>
                 </ul>
                 {% endfor %}

@@ -4,7 +4,9 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import create_db, get_migrate
 from App.main import create_app
-from App.controllers import ( create_author, create_publication, delete_publication, get_all_authors_json, get_all_authors )
+from App.controllers import ( create_author, create_publication, delete_publication, get_all_authors_json, get_all_authors, get_author )
+
+from App.models import *
 
 # This commands file allow you to create convenient CLI commands for testing controllers
 
@@ -96,6 +98,16 @@ pub_cli = AppGroup('pub', help='Publication object commands')
 @click.argument("citation", default="https://nicholasmendez.dev/")
 def create_publication_command(name, author, content, citation):
     create_publication(name, author, content, citation)
+    p = Publication(
+        name=name,
+        author=author,
+        content=content,
+        citation=citation
+    )
+    a = get_author(author)
+
+    a.publications.append(p)
+
     print(f'Publication {name} created!')
 
 # this command will be : flask user create bob bobpass

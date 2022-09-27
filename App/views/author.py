@@ -3,7 +3,8 @@ from flask_jwt import jwt_required
 
 
 from App.controllers import (
-    create_author, 
+    create_author,
+    get_author,
     get_all_authors,
     get_all_authors_json,
 )
@@ -21,8 +22,8 @@ def client_app():
     authors = get_all_authors_json()
     return jsonify(authors)
 
-@author_views.route('/author/<fname>-<lname>-<id>')
-def author_profile(fname, lname, id):
+@author_views.route('/author/<id>', methods=['GET'])
+def author_profile(id):
     author = get_author(id)
     return render_template('profile.html', author=author)
 

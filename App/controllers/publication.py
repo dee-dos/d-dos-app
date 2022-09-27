@@ -21,7 +21,8 @@ def get_all_pubs_json():
     pubs = Publication.query.all()
     if not pubs:
         return []
-    pubs = [publication.toJSON() for publication in publications]
+
+    pubs = [pub.toJSON() for pub in pubs]
     return pubs
 
 def delete_publication(id):

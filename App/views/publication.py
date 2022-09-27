@@ -12,13 +12,13 @@ pub_views = Blueprint('pub_views', __name__, template_folder='../templates')
 
 
 @pub_views.route('/publications', methods=['GET'])
-def get_author_page():
+def get_pub_page():
     publications = get_all_pubs()
     return render_template('publications.html', publications=publications)
 
 @pub_views.route('/api/publications')
 def client_app():
-    authors = get_all_pubs_json()
+    publications = get_all_pubs_json()
     return jsonify(publications)
 
 @pub_views.route('/publication/<id>')
