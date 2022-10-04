@@ -16,7 +16,7 @@ author_views = Blueprint('author_views', __name__, template_folder='../templates
 
 # Jinja Routes
 @author_views.route('/authors', methods=['GET'])
-def get_author_page():
+def get_authors_page():
     authors = get_all_authors()
     return render_template('authors.html', authors=authors)
 
@@ -55,8 +55,9 @@ def create_author_action():
 @author_views.route('/api/authors', methods=['PUT'])
 def update_author_action():
     data = request.json
-    author = update_author(data['id'], data['fname'], data['lname'], data['email'], data['password'])
+    author = get_author(data['id'])
     if author:
+        update_author(data['id'], data['fname'], data['lname'], data['email'], data['password'])
         return jsonify({"message":"Author updated successfully!"})
     return jsonify({"message":"Author not found!"})
 
