@@ -3,8 +3,8 @@
 
 ![Tests](https://github.com/BreretonCodez/d-dos-app/actions/workflows/dev.yml/badge.svg)
 
-# Flask MVC Template
-A template for flask applications structured in the Model View Controller pattern [Demo](https://dcit-flaskmvc.herokuapp.com/)
+# Deployed Application
+Get access to the deployed application here! [Demo](https://d-dos-app.herokuapp.com/)
 
 
 # Dependencies
