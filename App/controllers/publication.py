@@ -1,6 +1,8 @@
 from App.models import Publication
 from App.models import Author
 from App.database import db
+from anytree import Node, PreOrderIter
+from collections import UserList
 
 def create_publication(name, author, content, citation):
     newPub = Publication(name=name, author=author, content=content, citation=citation)
@@ -8,8 +10,13 @@ def create_publication(name, author, content, citation):
     db.session.commit()
     return newPub
 
+def search_pub(search):
+    return Publication.query.filter(
+        Publication.name.like( '%'+search+'%' )
+    )
+
 def get_pub_by_name(name):
-    return Publication.query.filter_by(fname=fname).first()
+    return Publication.query.filter_by(name=name).first()
 
 def get_pub(id):
     return Publication.query.get(id)
@@ -41,4 +48,35 @@ def update_pub(id, name, content, citation):
         db.session.add(pub)
         return db.session.commit()
     return None
+
+def build_pub_tree(id):
+    pub = get_pub(id)
+
+    pa = Node(pub.author)
+    authors = pub.coauthors
+
+    for author in authors:
+        author.id = Node(author.id, parent=pa)
+        build_pub_tree(author.id)
+
+class PubList(UserList):
+
+    def remove(self, s = None):
+        raise RuntimeError("Deletion not allowed")
+
+    def pop(self, s = None):
+        raise RuntimeError("Deletion not allowed")
+
+def print_pub_tree(id):
+    pubtree = build_pub_tree(id)
+    Pubs = PubList()
+
+    for node in PreOrderIter(pubtree):
+        Pubs = node.Author.publications 
+
+
+
+
+    
+
     

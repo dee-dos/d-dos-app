@@ -6,6 +6,22 @@
 
 {% block content %}
 
+    <form class="row">
+        <div>
+            <div class="input-field col s9">
+                <i class="material-icons prefix">search</i>
+                
+                <textarea id="icon_prefix2" name="search"   class="materialize-textarea">{% if search %} {{search}} {% endif %}</textarea>
+                <label for="icon_prefix2">Search Publication...</label>
+            </div>
+            <div class="input-field s3">
+            <button class="btn waves-effect waves-light" type="submit">Search
+                <i class="material-icons right">search</i>
+            </button>
+            </div>
+        </div>
+    </form>
+
     <main style="padding: 1em" class="row">
         <section class="col s12 m8">
             <h1 class="center">Publications</h1>
@@ -16,7 +32,16 @@
                     <li class="collection-item avatar">
                         <i class="material-icons circle">folder</i>
                         <a href="/publication/{{publication.id}}"><span class="title">{{publication.name}}</span></a>
-                        <p><a href="/author/{{publication.author}}">{{publication.Author.fname}} {{publication.Author.lname}}</a><br> {{publication.content}} </p>
+                        <p>
+                            <a href="/author/{{publication.author}}">{{publication.Author.fname}} {{publication.Author.lname}}</a>,
+                            {% for coAuthor in coAuthors%}
+
+                            <a href="/author/{{publication.coAuthor}}">{{publication.coAuthor}}</a>,
+
+                            {% endfor %}
+                            <br> 
+                            {{publication.content}} 
+                        </p>
                     </li>
                 </ul>
                 {% endfor %}

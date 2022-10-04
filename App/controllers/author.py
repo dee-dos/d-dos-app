@@ -13,6 +13,9 @@ def get_author_by_fname(fname):
 def get_author_by_lname(lname):
     return Author.query.filter_by(lname=lname).first()
 
+def get_author_email(email):
+    return Author.query.filter_by(email=email).first()
+
 def get_author(id):
     return Author.query.get(id)
 
@@ -26,12 +29,25 @@ def get_all_authors_json():
     authors = [author.toJSON() for author in authors]
     return authors
 
-def update_author(id, fname, lname):
+def delete_author(id):
+    author = get_author(id)
+    if author:
+        db.session.delete(author)
+        db.session.commit()
+    return None
+
+def update_author(id, fname, lname, email, password):
     author = get_author(id)
     if author:
         author.fname = fname
         author.lname = lname
+        author.email = email
+        author.password = password
         db.session.add(author)
         return db.session.commit()
     return None
-    
+
+def get_author_pubs(id):
+    author = get_author(id)
+    pubs = author.publications
+    return pubs

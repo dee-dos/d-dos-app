@@ -4,7 +4,7 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import create_db, get_migrate
 from App.main import create_app
-from App.controllers import ( create_author, create_publication, delete_publication, get_all_authors_json, get_all_authors, get_author )
+from App.controllers import ( create_author, create_publication, delete_publication, delete_author, get_all_authors_json, get_all_authors, get_author, get_pub_by_name )
 
 from App.models import *
 
@@ -68,7 +68,7 @@ def create_author_command(fname, lname, email, password):
     create_author(fname, lname, email, password)
     print(f'Author {fname} {lname} created with email {email}!')
 
-# this command will be : flask user create bob bobpass
+# this command will be : flask author create bob rando bobrando@nomail.com bobpass
 
 @author_cli.command("list", help="Lists authors in the database")
 @click.argument("format", default="string")
@@ -78,25 +78,31 @@ def list_author_command(format):
     else:
         print(get_all_authors_json())
 
+@author_cli.command("delete", help="Removes an author from the database")
+@click.argument("id")
+def delete_author_command(id):
+    delete_author(id)
+    print(f'Author ID {id} deleted!')
+
 app.cli.add_command(author_cli) # add the group to the cli
 
 '''
 Publication Commands
 '''
 
-# Commands can be organized using groups
-
 # create a group, it would be the first argument of the comand
-# eg : flask author <command>
+# eg : flask pub <command>
 pub_cli = AppGroup('pub', help='Publication object commands') 
 
 # Then define the command and any parameters and annotate it with the group (@)
 @pub_cli.command("create", help="Creates a publication.")
 @click.argument("name", default="A random fact about Software Engineering.")
 @click.argument("author", default="1")
+@click.argument("coauthors", default="4")
 @click.argument("content", default="Something random about Software Engineering I chose to share randomly!")
 @click.argument("citation", default="https://nicholasmendez.dev/")
-def create_publication_command(name, author, content, citation):
+def create_publication_command(name, author, coauthors, content, citation, **kwargs):
+
     create_publication(name, author, content, citation)
     p = Publication(
         name=name,
@@ -104,6 +110,9 @@ def create_publication_command(name, author, content, citation):
         content=content,
         citation=citation
     )
+
+    p2 = get_pub_by_name(name)
+    
     a = get_author(author)
 
     a.publications.append(p)
@@ -111,6 +120,7 @@ def create_publication_command(name, author, content, citation):
     print(f'Publication {name} created!')
 
 # this command will be : flask user create bob bobpass
+
 @pub_cli.command("delete", help="Removes a publication from the database")
 @click.argument("id")
 def delete_publication_command(id):

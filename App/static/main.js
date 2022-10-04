@@ -1,22 +1,24 @@
 
-async function getUserData(){
-    const response = await fetch('/api/users');
+async function getAuthorData(){
+    const response = await fetch('/api/authors');
     return response.json();
 }
 
-function loadTable(users){
+function loadTable(authors){
     const table = document.querySelector('#result');
-    for(let user of users){
+    for(let author of authors){
         table.innerHTML += `<tr>
-            <td>${user.id}</td>
-            <td>${user.username}</td>
+            <td>${author.id}</td>
+            <td>${author.fname}</td>
+            <td>${author.lname}</td>
+            <td>${author.email}</td>
         </tr>`;
     }
 }
 
 async function main(){
-    const users = await getUserData();
-    loadTable(users);
+    const authors = await getAuthorData();
+    loadTable(authors);
 }
 
 main();
