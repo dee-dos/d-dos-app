@@ -14,7 +14,6 @@ class Publication(db.Model):
             'id': self.id,
             'name': self.name,
             'author': self.author,
-            'coauthors': self.coauthors.toJSON,
             'content': self.content,
             'citation': self.citation
         }
