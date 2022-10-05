@@ -39,7 +39,7 @@ def delete_publication(id):
         db.session.commit()
     return None
 
-def update_pub(id, name, content, citation):
+def update_pub(id, name, author, content, citation):
     pub = get_pub(id)
     if pub:
         pub.name = name
