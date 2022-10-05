@@ -13,7 +13,7 @@ class Publication(db.Model):
         return {
             'id': self.id,
             'name': self.name,
-            'author': self.author.toJSON,
+            'author': self.author,
             'coauthors': self.coauthors.toJSON,
             'content': self.content,
             'citation': self.citation
