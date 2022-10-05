@@ -47,7 +47,7 @@ def get_author_pubs_action():
     author = get_author(data['author'])
     if author:
         pubs = get_pub_by_author(data['author'])
-        return pubs.toJSON
+        return jsonify(pubs)
     return jsonify({"message":"Author not found!"})
 
 
