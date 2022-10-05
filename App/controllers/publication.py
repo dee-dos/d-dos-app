@@ -19,7 +19,13 @@ def get_pub_by_name(name):
     return Publication.query.filter_by(name=name).first()
 
 def get_pub_by_author(id):
-    return Publication.query.filter_by(author=id).all()
+    pubs = Publication.query.filter_by(author=id).all()
+
+    if not pubs:
+        return []
+
+    pubs = [pub.toJSON() for pub in pubs]
+    return pubs
 
 def get_pub(id):
     return Publication.query.get(id)
