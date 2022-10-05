@@ -50,7 +50,7 @@ def get_pub_action():
 @pub_views.route('/api/publications', methods=['POST'])
 def create_pub_action():
     data = request.json
-    pub = create_pub_action(data['name'], data['author'], data['content'], data['citation'])
+    pub = create_publication(data['name'], data['author'], data['content'], data['citation'])
     return jsonify({"message":"Publication created successfully!"})
 
 @pub_views.route('/api/publications', methods=['PUT'])
