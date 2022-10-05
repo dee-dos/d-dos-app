@@ -41,7 +41,7 @@ def get_all_pubs_action():
     publications = get_all_pubs_json()
     return jsonify(publications)
 
-@pub_views.route('api/publications/author', methods=['GET'])
+@pub_views.route('/api/publications/author', methods=['GET'])
 def get_author_pubs_action():
     data = request.json
     author = get_author(data['author'])
