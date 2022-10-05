@@ -18,6 +18,9 @@ def search_pub(search):
 def get_pub_by_name(name):
     return Publication.query.filter_by(name=name).first()
 
+def get_pub_by_author(id):
+    return Publication.query.filter_by(author=id).all()
+
 def get_pub(id):
     return Publication.query.get(id)
 

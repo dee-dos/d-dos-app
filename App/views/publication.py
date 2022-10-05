@@ -6,6 +6,8 @@ from App.controllers import (
     create_publication,
     get_pub,
     get_pub_by_name,
+    get_pub_by_author,
+    get_author,
     update_pub,
     delete_publication,
     get_all_pubs,
@@ -38,6 +40,16 @@ def static_user_page():
 def get_all_pubs_action():
     publications = get_all_pubs_json()
     return jsonify(publications)
+
+@pub_views.routes('api/publications/author', methods=['GET'])
+def get_author_pubs_action():
+    data = request.json
+    author = get_author(data['author'])
+    if author:
+        pubs = get_pub_by_author(data['author'])
+        return pubs.toJSON
+    return jsonify({"message":"Author not found!"})
+
 
 @pub_views.route('/api/publications/id', methods=['GET'])
 def get_pub_action():
