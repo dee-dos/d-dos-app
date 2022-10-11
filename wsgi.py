@@ -98,11 +98,9 @@ pub_cli = AppGroup('pub', help='Publication object commands')
 @pub_cli.command("create", help="Creates a publication.")
 @click.argument("name", default="A random fact about Software Engineering.")
 @click.argument("author", default="1")
-@click.argument("coauthors", default="4")
 @click.argument("content", default="Something random about Software Engineering I chose to share randomly!")
 @click.argument("citation", default="https://nicholasmendez.dev/")
-def create_publication_command(name, author, coauthors, content, citation, **kwargs):
-
+def create_publication_command(name, author, content, citation):
     create_publication(name, author, content, citation)
     p = Publication(
         name=name,
@@ -111,10 +109,7 @@ def create_publication_command(name, author, coauthors, content, citation, **kwa
         citation=citation
     )
 
-    p2 = get_pub_by_name(name)
-    
     a = get_author(author)
-
     a.publications.append(p)
 
     print(f'Publication {name} created!')

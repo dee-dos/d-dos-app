@@ -2,13 +2,18 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from App.database import db
 from .publication import *
 
+pubs = db.Table('association', 
+    db.Column('publication', db.Integer, db.ForeignKey('publication.id'), primary_key=True),
+    db.Column('author', db.Integer, db.ForeignKey('author.id'), primary_key=True)
+)
+
 class Author(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fname = db.Column(db.String, nullable=False)
     lname = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    publications = db.relationship('Publication', backref='Author', lazy='select', overlaps="Publication,coauthors")
+    publications = db.relationship('Publication', secondary=pubs, backref=db.backref('cos', lazy=True), lazy='select')
 
     def __init__(self, fname, lname, email, password):
         self.fname = fname
