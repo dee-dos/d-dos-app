@@ -1,10 +1,9 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from App.database import db
-from .publication import *
 
-pubs = db.Table('association', 
-    db.Column('publication', db.Integer, db.ForeignKey('publication.id'), primary_key=True),
-    db.Column('author', db.Integer, db.ForeignKey('author.id'), primary_key=True)
+pub_tree = db.Table('pub_tree',
+    db.Column('author', db.Integer, db.ForeignKey('author.id')),
+    db.Column('publication', db.Integer, db.ForeignKey('publication.id'))
 )
 
 class Author(db.Model):
@@ -13,7 +12,7 @@ class Author(db.Model):
     lname = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    publications = db.relationship('Publication', secondary=pubs, backref=db.backref('cos', lazy=True), lazy='select')
+    publications = db.relationship('Publication', backref='authors', lazy='select', secondary=pub_tree)
 
     def __init__(self, fname, lname, email, password):
         self.fname = fname
@@ -36,3 +35,20 @@ class Author(db.Model):
     def check_password(self, password):
         """Check hashed password."""
         return check_password_hash(self.password, password)
+
+class Publication(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    author = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=False)
+    content = db.Column(db.String, nullable=False)
+    citation = db.Column(db.String, nullable=False)
+
+    def toJSON(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'author': self.author.toJSON(),
+            'co-authors': self.authors,
+            'content': self.content,
+            'citation': self.citation
+        }

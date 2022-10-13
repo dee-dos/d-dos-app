@@ -4,7 +4,7 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import create_db, get_migrate
 from App.main import create_app
-from App.controllers import ( create_author, create_publication, delete_publication, delete_author, get_all_authors_json, get_all_authors, get_author, get_pub_by_name )
+from App.controllers import ( get_pub, get_author, create_author, create_publication, delete_publication, delete_author, get_all_authors_json, get_all_authors, get_author, get_pub_by_name )
 
 from App.models import *
 
@@ -116,12 +116,47 @@ def create_publication_command(name, author, content, citation):
 
 # this command will be : flask user create bob bobpass
 
+@pub_cli.command("add-co-author", help="Adds a co-author to the publication")
+@click.argument("pub_id", default="2")
+@click.argument("author_id", default="1")
+def add_co_author_command(pub_id, author_id):
+    pub = get_pub(pub_id)
+    author = get_author(author_id)
+
+    if not pub:
+        print(f'Publication with ID {id} does not exist!')
+
+    if not author:
+        print(f'Author with ID {id} does not exist!')
+
+    pub.authors.append(author)
+    db.session.commit()
+
+    print(f'Co-Author ID {author_id} added to Publication ID {pub_id}!')
+
+@pub_cli.command("delete-co-author", help="Removes a co-author from the publication")
+@click.argument("pub_id", default="2")
+@click.argument("author_id", default="1")
+def del_co_author_command(pub_id, author_id):
+    pub = get_pub(pub_id)
+    author = get_author(author_id)
+
+    if not pub:
+        print(f'Publication with ID {id} does not exist!')
+
+    if not author:
+        print(f'Author with ID {id} does not exist!')
+
+    pub.authors.remove(author)
+    db.session.commit()
+
+    print(f'Co-Author ID {author_id} removed from Publication ID {pub_id}!')
+
 @pub_cli.command("delete", help="Removes a publication from the database")
 @click.argument("id")
 def delete_publication_command(id):
     delete_publication(id)
     print(f'Publication ID {id} deleted!')
-
 
 @pub_cli.command("list", help="Lists publications in the database")
 @click.argument("format", default="string")
