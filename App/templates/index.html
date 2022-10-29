@@ -33,11 +33,17 @@
                         <i class="material-icons circle">folder</i>
                         <a href="/publication/{{publication.id}}"><span class="title">{{publication.name}}</span></a>
                         <p>
-                            <a href="/author/{{publication.author}}">{{publication.Author.fname}} {{publication.Author.lname}}</a>,
-                            {% for coAuthor in coAuthors%}
+                            {% for author in authors  %}
+                            {% if author.id == publication.author %}
 
-                            <a href="/author/{{publication.coAuthor}}">{{publication.coAuthor}}</a>,
+                                Author: <a href="/author/{{author.id}}">{{author.fname}} {{author.lname}}</a> 
 
+                            {% endif %}
+                            {% endfor %}
+                            <br>
+                            Co-Authors:
+                            {% for coauthor in publication.coauthors %}
+                            <a href="/author/{{coauthor.id}}">{{coauthor.fname}} {{coauthor.lname}}</a>, 
                             {% endfor %}
                             <br> 
                             {{publication.content}} 

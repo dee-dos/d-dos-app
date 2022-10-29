@@ -26,7 +26,8 @@ def get_pub_page():
 @pub_views.route('/publication/<id>')
 def pub_info(id):
     publication = get_pub(id)
-    return render_template('pub-info.html', publication=publication)
+    author = get_author(publication.author)
+    return render_template('pub-info.html', publication=publication, author=author)
 
 # JS Routes
 

@@ -8,7 +8,7 @@ class Author(db.Model):
     lname = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    publications = db.relationship('Publication', backref='Author', lazy='select', overlaps="Publication,coauthors")
+    publications = db.relationship('Publication', backref='Author', lazy='select')
 
     def __init__(self, fname, lname, email, password):
         self.fname = fname

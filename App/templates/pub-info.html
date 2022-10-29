@@ -7,11 +7,38 @@
 {% block content %}
 
     <h3> {{ publication.name }} </h3>
-    <h5>Author: <a href="/author/{{publication.author}}"> {{ publication.Author.fname }} {{ publication.Author.lname }} </a></h5>
-
-    <h5>Co-Author: {{ publication.coAuthors }} </h5>
+    <h5>Author: <a href="/author/{{author.id}}"> {{ author.fname }} {{ author.lname }}</a> </h5>
+    <h5>Co-Authors: 
+        {% for coauthor in publication.coauthors %}
+        <a href="/author/{{coauthor.id}}"> {{ coauthor.fname }} {{ coauthor.lname }}</a>, 
+        {% endfor %}
+    </h5>
 
     <h5>Content: {{ publication.content }} </h5>
     <h5>Citation: {{ publication.citation }} </h5>
+
+    <h5>Co-Author Publications: </h5>
+    <section class="row" style="overflow-y: scroll; height:82vh">
+        {% for coauthor in publication.coauthors %}
+        <div class="col s12 m3">
+            
+            {% for publication in coauthor.publications %}
+            <div class="card center">
+                <br>
+                <p class="">
+                    <a href="/publications/{{publication.id}}">{{publication.name}}</a>
+                </p>
+                <div class="card-content">
+                    <a href="/authors/{{coauthor.id}}">{{coauthor.fname}} {{coauthor.lname}}</a> <br><br>
+                    {{publication.content}} <br>
+                      
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+
+      </section>
      
 {% endblock %}

@@ -4,7 +4,7 @@ from flask.cli import with_appcontext, AppGroup
 
 from App.database import create_db, get_migrate
 from App.main import create_app
-from App.controllers import ( create_author, create_publication, delete_publication, delete_author, get_all_authors_json, get_all_authors, get_author, get_pub_by_name )
+from App.controllers import ( get_pub, get_author, create_author, create_publication, delete_publication, delete_author, get_all_authors_json, get_all_authors, get_author, get_pub_by_name )
 
 from App.models import *
 
@@ -98,11 +98,9 @@ pub_cli = AppGroup('pub', help='Publication object commands')
 @pub_cli.command("create", help="Creates a publication.")
 @click.argument("name", default="A random fact about Software Engineering.")
 @click.argument("author", default="1")
-@click.argument("coauthors", default="4")
 @click.argument("content", default="Something random about Software Engineering I chose to share randomly!")
 @click.argument("citation", default="https://nicholasmendez.dev/")
-def create_publication_command(name, author, coauthors, content, citation, **kwargs):
-
+def create_publication_command(name, author, content, citation):
     create_publication(name, author, content, citation)
     p = Publication(
         name=name,
@@ -111,22 +109,54 @@ def create_publication_command(name, author, coauthors, content, citation, **kwa
         citation=citation
     )
 
-    p2 = get_pub_by_name(name)
-    
     a = get_author(author)
-
     a.publications.append(p)
 
     print(f'Publication {name} created!')
 
 # this command will be : flask user create bob bobpass
 
+@pub_cli.command("add-co-author", help="Adds a co-author to the publication")
+@click.argument("pub_id", default="2")
+@click.argument("author_id", default="1")
+def add_co_author_command(pub_id, author_id):
+    pub = get_pub(pub_id)
+    author = get_author(author_id)
+
+    if not pub:
+        print(f'Publication with ID {id} does not exist!')
+
+    if not author:
+        print(f'Author with ID {id} does not exist!')
+
+    pub.coauthors.append(author)
+    db.session.commit()
+
+    print(f'Co-Author ID {author_id} added to Publication ID {pub_id}!')
+
+@pub_cli.command("delete-co-author", help="Removes a co-author from the publication")
+@click.argument("pub_id", default="2")
+@click.argument("author_id", default="1")
+def del_co_author_command(pub_id, author_id):
+    pub = get_pub(pub_id)
+    author = get_author(author_id)
+
+    if not pub:
+        print(f'Publication with ID {id} does not exist!')
+
+    if not author:
+        print(f'Author with ID {id} does not exist!')
+
+    pub.coauthors.remove(author)
+    db.session.commit()
+
+    print(f'Co-Author ID {author_id} removed from Publication ID {pub_id}!')
+
 @pub_cli.command("delete", help="Removes a publication from the database")
 @click.argument("id")
 def delete_publication_command(id):
     delete_publication(id)
     print(f'Publication ID {id} deleted!')
-
 
 @pub_cli.command("list", help="Lists publications in the database")
 @click.argument("format", default="string")
