@@ -129,7 +129,7 @@ def add_co_author_command(pub_id, author_id):
     if not author:
         print(f'Author with ID {id} does not exist!')
 
-    pub.authors.append(author)
+    pub.coauthors.append(author)
     db.session.commit()
 
     print(f'Co-Author ID {author_id} added to Publication ID {pub_id}!')
@@ -147,7 +147,7 @@ def del_co_author_command(pub_id, author_id):
     if not author:
         print(f'Author with ID {id} does not exist!')
 
-    pub.authors.remove(author)
+    pub.coauthors.remove(author)
     db.session.commit()
 
     print(f'Co-Author ID {author_id} removed from Publication ID {pub_id}!')

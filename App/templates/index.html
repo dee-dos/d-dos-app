@@ -42,8 +42,8 @@
                             {% endfor %}
                             <br>
                             Co-Authors:
-                            {% for author in publication.authors %}
-                            <a href="/author/{{author.id}}">{{author.fname}} {{author.lname}}</a>, 
+                            {% for coauthor in publication.coauthors %}
+                            <a href="/author/{{coauthor.id}}">{{coauthor.fname}} {{coauthor.lname}}</a>, 
                             {% endfor %}
                             <br> 
                             {{publication.content}} 
