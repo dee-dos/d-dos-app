@@ -16,6 +16,7 @@ from App.controllers import (
 
 from App.views import (
     user_views,
+    auth_views,
     author_views,
     index_views,
     pub_views,
@@ -25,6 +26,7 @@ from App.views import (
 
 views = [
     user_views,
+    auth_views,
     author_views,
     index_views,
     pub_views,
