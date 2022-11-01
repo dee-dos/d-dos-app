@@ -11,11 +11,10 @@ class Publication(db.Model):
     citation = db.Column(db.String, nullable=False)
 
     def toJSON(self):
-        man = self.author.toJSON
         return {
             'id': self.id,
             'name': self.name,
-            'author': man,
+            'author': self.author.toJSON(),
             'co-authors': self.coauthors,
             'content': self.content,
             'citation': self.citation
