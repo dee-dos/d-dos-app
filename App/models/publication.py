@@ -5,7 +5,7 @@ from .model import *
 class Publication(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    author = db.Column(db.Integer, db.ForeignKey('author.id'), nullable=False)
+    author = db.Column(db.ForeignKey('author.id'), nullable=False)
     coauthors = db.relationship('Author', secondary=pub_tree)
     content = db.Column(db.String, nullable=False)
     citation = db.Column(db.String, nullable=False)
