@@ -58,30 +58,13 @@ def update_pub(id, name, author, content, citation):
         return db.session.commit()
     return None
 
-def build_pub_tree(id):
+def add_pub_co_author(id, co_author):
     pub = get_pub(id)
-
-    pa = Node(pub.author)
-    authors = pub.coauthors
-
-    for author in authors:
-        author.id = Node(author.id, parent=pa)
-        build_pub_tree(author.id)
-
-class PubList(UserList):
-
-    def remove(self, s = None):
-        raise RuntimeError("Deletion not allowed")
-
-    def pop(self, s = None):
-        raise RuntimeError("Deletion not allowed")
-
-def print_pub_tree(id):
-    pubtree = build_pub_tree(id)
-    Pubs = PubList()
-
-    for node in PreOrderIter(pubtree):
-        Pubs = node.Author.publications 
+    if pub:
+        pub.coauthors.append(co_author)
+        db.session.add(pub)
+        return db.session.commit()
+    return None
 
 
 

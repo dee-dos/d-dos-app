@@ -12,6 +12,7 @@ from App.controllers import (
     delete_publication,
     get_all_pubs,
     get_all_pubs_json,
+    add_pub_co_author,
 )
 
 pub_views = Blueprint('pub_views', __name__, template_folder='../templates')
@@ -82,4 +83,13 @@ def delete_pub_action():
     if pub:
         delete_publication(data['id'])
         return jsonify({"message":"Publication deleted successfully!"})
+    return jsonify({"message":"Publication not found!"})
+
+@pub_views.route('/api/publication/add-co-author', methods=['PUT'])
+def add_co_author_action():
+    data = request.json
+    pub = get_pub(data['id'])
+    if pub:
+        add_pub_co_author(data['id'], data['author'])
+        return jsonify({"message":"Co-Author added to Publication successfully!"})
     return jsonify({"message":"Publication not found!"})
