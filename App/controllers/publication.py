@@ -1,8 +1,7 @@
 from App.models import Publication
 from App.models import Author
 from App.database import db
-from anytree import Node, PreOrderIter
-from collections import UserList
+from .author import *
 
 def create_publication(name, author, content, citation):
     newPub = Publication(name=name, author=author, content=content, citation=citation)
@@ -61,7 +60,8 @@ def update_pub(id, name, author, content, citation):
 def add_pub_co_author(id, co_author):
     pub = get_pub(id)
     if pub:
-        pub.coauthors.append(co_author)
+        author = get_author(co_author)
+        pub.coauthors.append(author)
         db.session.add(pub)
         return db.session.commit()
     return None
