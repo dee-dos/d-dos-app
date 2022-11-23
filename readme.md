@@ -1,10 +1,12 @@
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/dee-dos/d-dos-app/tree/heroku)
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-![Tests](https://github.com/dee-dos/d-dos-app/heroku/actions/workflows/dev.yml/badge.svg)
 
-# Flask MVC Template
-A template for flask applications structured in the Model View Controller pattern [Demo](https://dcit-flaskmvc.herokuapp.com/)
+![Tests](https://github.com/dee-dos/d-dos-app/actions/workflows/dev.yml/badge.svg)
+
+
+# Deployed Application
+Get access to the deployed application here! [Demo](https://d-dos-app.herokuapp.com/)
 
 
 # Dependencies
