@@ -1,6 +1,7 @@
 from App.models import Publication
 from App.models import Author
 from App.database import db
+from .author import *
 
 def create_publication(name, author, content, citation):
     newPub = Publication(name=name, author=author, content=content, citation=citation)
@@ -8,8 +9,22 @@ def create_publication(name, author, content, citation):
     db.session.commit()
     return newPub
 
+def search_pub(search):
+    return Publication.query.filter(
+        Publication.name.like( '%'+search+'%' )
+    )
+
 def get_pub_by_name(name):
-    return Publication.query.filter_by(fname=fname).first()
+    return Publication.query.filter_by(name=name).first()
+
+def get_pub_by_author(id):
+    pubs = Publication.query.filter_by(author=id).all()
+
+    if not pubs:
+        return []
+
+    pubs = [pub.toJSON() for pub in pubs]
+    return pubs
 
 def get_pub(id):
     return Publication.query.get(id)
@@ -21,7 +36,8 @@ def get_all_pubs_json():
     pubs = Publication.query.all()
     if not pubs:
         return []
-    pubs = [publication.toJSON() for publication in publications]
+
+    pubs = [pub.toJSON() for pub in pubs]
     return pubs
 
 def delete_publication(id):
@@ -31,7 +47,7 @@ def delete_publication(id):
         db.session.commit()
     return None
 
-def update_pub(id, name, content, citation):
+def update_pub(id, name, author, content, citation):
     pub = get_pub(id)
     if pub:
         pub.name = name
@@ -40,4 +56,19 @@ def update_pub(id, name, content, citation):
         db.session.add(pub)
         return db.session.commit()
     return None
+
+def add_pub_co_author(id, co_author):
+    pub = get_pub(id)
+    if pub:
+        author = get_author(co_author)
+        pub.coauthors.append(author)
+        db.session.add(pub)
+        return db.session.commit()
+    return None
+
+
+
+
+    
+
     

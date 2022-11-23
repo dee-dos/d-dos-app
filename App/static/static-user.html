@@ -17,10 +17,10 @@
       <div class="nav-wrapper">
         <a href="#!" class="brand-logo center">App Users</a>
         <div class="nav-wrapper">
-            <ul id="nav-mobile" class="left">
+            <ul id="nav-mobile" class="right">
                 <li><a href="/">Home</a></li>
-                <li><a href="/users">Users Jinja</a></li>
-                <li><a href="/static/users">Users JS</a></li>
+                <li><a href="/authors">Authors Jinja</a></li>
+                <li><a href="/static/users">Authors JS</a></li>
             </ul>
         </div>
       </div>
@@ -29,14 +29,14 @@
     <div class="container" id="content">
         <div class="row">
             <p>
-                This is table is rendered on the Client. JavaScript code requests the data from <a href="/api/users">/api/users</a> and writes it to this page.
+                This is table is rendered on the Client. JavaScript code requests the data from <a href="/api/authors">/api/authors</a> and writes it to this page.
             </p>
         </div>
         <div class="row">
             <table>
                 <thead>
                   <tr>
-                    <th>Id</th><th>Username</th>
+                    <th>ID</th><th>First Name</th><th>Last Name</th><th>Email</th>
                   </tr>
                 </thead>
                 <tbody id="result">
